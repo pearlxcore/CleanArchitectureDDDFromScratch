@@ -19,13 +19,13 @@ namespace BuberDinner.Application.Services.Authentication
             // check user if exists
             if (_userRepository.getUserByEmail(email) is not User user)
             {
-                throw new Exception("user with email given is not exists");
+                throw new Exception("User with email given is not exists.");
             }
 
             // validate password
             if (user.Password != password)
             {
-                throw new Exception("password is incorrect");
+                throw new Exception("Incorrect email or password.");
             }
             // create jwt token
             var token = _jwtTokenGenerator.GenerateToken(user);
@@ -38,7 +38,7 @@ namespace BuberDinner.Application.Services.Authentication
             // check if user exist
             if (_userRepository.getUserByEmail(email) != null)
             {
-                throw new Exception("User already exists");
+                throw new Exception("User already exists.");
             }
 
             // create user
