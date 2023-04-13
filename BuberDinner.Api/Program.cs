@@ -1,4 +1,4 @@
-using BuberDinner.Api.Errors;
+using BuberDinner.Api.Common.Errors;
 using BuberDinner.Application;
 using BuberDinner.Application.Services.Authentication;
 using BuberDinner.Infrastructure;
@@ -25,19 +25,22 @@ namespace BuberDinner.Api
                 builder.Services.AddEndpointsApiExplorer();
                 builder.Services.AddSwaggerGen();
                 builder.Services.AddControllers();
-                //builder.Services.AddSingleton<ProblemDetailsFactory, BuberDInnerProblemDetailsFactory>();
+
+                // using ProblemDetailsFactory from aspnetcore
+                builder.Services.AddSingleton<ProblemDetailsFactory, BuberDInnerProblemDetailsFactory>();
             }
 
 
             var app = builder.Build();
             {
-                // error handler
+                // error handler minimal api style
                 app.UseExceptionHandler("/error");
-                app.Map("/error", (HttpContext httpContext) =>
-                {
-                    Exception? exception = httpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
-                    return Results.Problem(detail: exception.Message);
-                });
+                //app.Map("/error", (HttpContext httpContext) =>
+                //{
+                //    Exception? exception = httpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
+                //    return Results.Problem(detail: exception.Message);
+                //});
+
                 // Configure the HTTP request pipeline.
                 if (app.Environment.IsDevelopment())
                 {
